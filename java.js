@@ -120,7 +120,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         nameCell.textContent = data.name;
         emailCell.textContent = data.email;
-        destinationCell.textContent = data.destination;
+        departureCell.textContent = data.departure;
+        arrivalCell.textContent = data.arrival;
         dateCell.textContent = data.date;
         ticketTypeCell.textContent = data.ticketType;
         paymentMethodCell.textContent = data.paymentMethod;

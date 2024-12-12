@@ -27,27 +27,43 @@ document.addEventListener('DOMContentLoaded', function() {
         const arrival = document.getElementById('arrival').value;
         const date = document.getElementById('date').value;
         const ticketType = document.getElementById('ticketType').value;
-        const cardNumber = document.getElementById('cardNumber').value;
-        const cardExpiry = document.getElementById('cardExpiry').value;
-        const cardCVC = document.getElementById('cardCVC').value;
 
         if (new Date(date) < new Date(today)) {
             alert("You cannot book a ticket for a past date.");
             return;
         }
 
+        // Show the payment form
+        document.getElementById('payment-form').style.display = 'block';
+
+        // Optionally, hide the ticket form
+        document.getElementById('booking-form').style.display = 'none';
+    });
+
+    document.getElementById('paymentForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const cardNumber = document.getElementById('cardNumber').value;
+        const cardExpiry = document.getElementById('cardExpiry').value;
+        const cardCVC = document.getElementById('cardCVC').value;
+
         const table = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
         const newRow = table.insertRow();
 
-        newRow.insertCell(0).textContent = name;
-        newRow.insertCell(1).textContent = email;
-        newRow.insertCell(2).textContent = departure;
-        newRow.insertCell(3).textContent = arrival;
-        newRow.insertCell(4).textContent = date;
-        newRow.insertCell(5).textContent = ticketType;
+        newRow.insertCell(0).textContent = document.getElementById('name').value;
+        newRow.insertCell(1).textContent = document.getElementById('email').value;
+        newRow.insertCell(2).textContent = document.getElementById('departure').value;
+        newRow.insertCell(3).textContent = document.getElementById('arrival').value;
+        newRow.insertCell(4).textContent = document.getElementById('date').value;
+        newRow.insertCell(5).textContent = document.getElementById('ticketType').value;
         newRow.insertCell(6).textContent = 'Credit Card';
 
-        // Clear the form
+        // Clear the forms
         document.getElementById('ticketForm').reset();
+        document.getElementById('paymentForm').reset();
+
+        // Optionally, hide the payment form and show the ticket form again
+        document.getElementById('payment-form').style.display = 'none';
+        document.getElementById('booking-form').style.display = 'block';
     });
 });

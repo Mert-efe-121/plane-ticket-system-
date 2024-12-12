@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Mert Efe">
+    <meta name="description" content="This is an example of an HTML5 JavaScript.">
+    <link rel="stylesheet" href="main.css">
+    <script src="java.js" defer></script>
+    <title>Plane Ticket Booking System</title>
+</head>
+<body>
+    <header>
+        <h1>Plane Ticket Booking System</h1>
+    </header>
+    <main>
+        <section id="booking-form">
+            <h2>Book a Ticket</h2>
+            <form id="ticketForm" action="#" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <div class="spacer"></div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <br>
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" name="destination" required>
+                <br>
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+                <br>
+                <label for="ticketType">Ticket Type:</label>
+                <select id="ticketType" name="ticketType" required>
+                    <option value="">Select Ticket Type</option>
+                    <option value="Economy">Economy</option>
+                    <option value="Business">Business</option>
+                    <option value="First">First</option>
+                </select>
+                <div id="ticketPrice"></div>
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+        <section id="payment-form" style="display: none;">
+            <h2>Payment Method</h2>
+            <form id="paymentForm" action="#" method="post">
+                <label for="paymentMethod">Payment Method:</label>
+                <select id="paymentMethod" name="paymentMethod" required>
+                    <option value="Credit Card">Credit Card</option>
+                </select>
+                <br>
+                <div id="creditCardInfo">
+                    <label for="cardNumber">Card Number:</label>
+                    <input type="tel" id="cardNumber" name="cardNumber" maxlength="19" required>
+                    <br>
+                    <label for="cardExpiry">Expiry Date:</label>
+                    <input type="tel" id="cardExpiry" name="cardExpiry" placeholder="MM/YY" maxlength="5" required>
+                    <br>
+                    <label for="cardCVC">CVC:</label>
+                    <input type="tel" id="cardCVC" name="cardCVC" maxlength="3" required>
+                    <br>
+                </div>
+                <button type="submit">Submit Payment</button>
+            </form>
+        </section>
+        <section id="data-table">
+            <h2>Booking Data</h2>
+            <table id="dataTable" border="1">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Destination</th>
+                        <th>Date</th>
+                        <th>Ticket Type</th>
+                        <th>Payment Method</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be inserted here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Mert Efe. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -33,37 +33,96 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Show the payment form
-        document.getElementById('payment-form').style.display = 'block';
+        // Store the booking data in localStorage or a global variable
+        localStorage.setItem('bookingData', JSON.stringify({ name, email, departure, arrival, date, ticketType }));
 
-        // Optionally, hide the ticket form
+        // Hide the booking form and show the payment form
         document.getElementById('booking-form').style.display = 'none';
+        document.getElementById('payment-form').style.display = 'block';
+    });
+
+    const paymentMethodSelect = document.getElementById('paymentMethod');
+    const creditCardInfoDiv = document.getElementById('creditCardInfo');
+
+    paymentMethodSelect.addEventListener('change', function() {
+        if (paymentMethodSelect.value === 'Credit Card') {
+            creditCardInfoDiv.style.display = 'block';
+        } else {
+            creditCardInfoDiv.style.display = 'none';
+        }
+    });
+
+    const cardNumberInput = document.getElementById('cardNumber');
+    cardNumberInput.addEventListener('input', function(event) {
+        let value = event.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+        let formattedValue = '';
+        for (let i = 0; i < value.length; i += 4) {
+            formattedValue += value.substr(i, 4) + ' ';
+        }
+        event.target.value = formattedValue.trim();
+    });
+
+    const cardExpiryInput = document.getElementById('cardExpiry');
+    cardExpiryInput.addEventListener('input', function(event) {
+        let value = event.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+        if (value.length >= 2) {
+            value = value.substr(0, 2) + '/' + value.substr(2, 2);
+        }
+        event.target.value = value;
     });
 
     document.getElementById('paymentForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
-        const cardNumber = document.getElementById('cardNumber').value;
-        const cardExpiry = document.getElementById('cardExpiry').value;
-        const cardCVC = document.getElementById('cardCVC').value;
+        const paymentMethod = document.getElementById('paymentMethod').value;
 
-        const table = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
-        const newRow = table.insertRow();
+        // Retrieve the booking data from localStorage or a global variable
+        const bookingData = JSON.parse(localStorage.getItem('bookingData'));
+        bookingData.paymentMethod = paymentMethod;
 
-        newRow.insertCell(0).textContent = document.getElementById('name').value;
-        newRow.insertCell(1).textContent = document.getElementById('email').value;
-        newRow.insertCell(2).textContent = document.getElementById('departure').value;
-        newRow.insertCell(3).textContent = document.getElementById('arrival').value;
-        newRow.insertCell(4).textContent = document.getElementById('date').value;
-        newRow.insertCell(5).textContent = document.getElementById('ticketType').value;
-        newRow.insertCell(6).textContent = 'Credit Card';
+        if (paymentMethod === 'Credit Card') {
+            const cardNumber = document.getElementById('cardNumber').value;
+            const cardExpiry = document.getElementById('cardExpiry').value;
+            const cardCVC = document.getElementById('cardCVC').value;
+            bookingData.cardNumber = cardNumber;
+            bookingData.cardExpiry = cardExpiry;
+            bookingData.cardCVC = cardCVC;
+        }
+
+        addToTable(bookingData);
+
+        // Clear the stored booking data
+        localStorage.removeItem('bookingData');
+
+        // Hide the payment form and show the booking form
+        document.getElementById('payment-form').style.display = 'none';
+        document.getElementById('booking-form').style.display = 'block';
 
         // Clear the forms
         document.getElementById('ticketForm').reset();
         document.getElementById('paymentForm').reset();
 
-        // Optionally, hide the payment form and show the ticket form again
-        document.getElementById('payment-form').style.display = 'none';
-        document.getElementById('booking-form').style.display = 'block';
+        // Reset the ticket price display
+        ticketPriceDiv.textContent = '';
     });
+
+    function addToTable(data) {
+        const table = document.getElementById('dataTable');
+        const newRow = table.insertRow();
+
+        const nameCell = newRow.insertCell(0);
+        const emailCell = newRow.insertCell(1);
+        const departureCell = newRow.insertCell(2);
+        const arrivalCell = newRow.insertCell(3);
+        const dateCell = newRow.insertCell(4);
+        const ticketTypeCell = newRow.insertCell(5);
+        const paymentMethodCell = newRow.insertCell(6);
+
+        nameCell.textContent = data.name;
+        emailCell.textContent = data.email;
+        destinationCell.textContent = data.destination;
+        dateCell.textContent = data.date;
+        ticketTypeCell.textContent = data.ticketType;
+        paymentMethodCell.textContent = data.paymentMethod;
+    }
 });
